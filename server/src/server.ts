@@ -1,9 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import { testConnection } from './db/connection.js';
+import { createDefaultUser } from './init-default-user.js';
 import { bingoRoutes } from './routes/bingo.js';
 import { vendedorRoutes } from './routes/vendedor.js';
 import { pedidoRoutes } from './routes/pedido.js';
+import { userRoutes } from './routes/user.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -18,6 +20,7 @@ app.get('/health', (req, res) => {
 });
 
 // Rotas da API
+app.use('/api/users', userRoutes);
 app.use('/api/bingos', bingoRoutes);
 app.use('/api/vendedores', vendedorRoutes);  
 app.use('/api/pedidos', pedidoRoutes);
@@ -27,6 +30,9 @@ async function startServer() {
   try {
     // Testar conexão com banco
     await testConnection();
+    
+    // Criar usuário padrão
+    await createDefaultUser();
     
     // Iniciar servidor
     app.listen(PORT, () => {

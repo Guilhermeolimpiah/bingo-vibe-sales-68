@@ -110,6 +110,41 @@ class ApiService {
       body: JSON.stringify(pedidoData),
     });
   }
+
+  // ========================================
+  // USUÁRIOS
+  // ========================================
+  static async getUsers() {
+    return this.request('/users');
+  }
+
+  static async getUser(id: string) {
+    return this.request(`/users/${id}`);
+  }
+
+  static async getUserByEmail(email: string) {
+    return this.request(`/users/email/${email}`);
+  }
+
+  static async createUser(userData: any) {
+    return this.request('/users', {
+      method: 'POST',
+      body: JSON.stringify(userData),
+    });
+  }
+
+  static async updateUser(id: string, userData: any) {
+    return this.request(`/users/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(userData),
+    });
+  }
+
+  static async deleteUser(id: string) {
+    return this.request(`/users/${id}`, {
+      method: 'DELETE',
+    });
+  }
 }
 
 export { ApiService };

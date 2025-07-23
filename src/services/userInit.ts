@@ -1,6 +1,7 @@
-import { UserService } from './userService';
+import { UserService } from './realUserService';
 
 const DEFAULT_USER_EMAIL = 'admin@bingo.com';
+const DEFAULT_USER_ID = 'default-admin-user';
 
 export async function getOrCreateDefaultUser() {
   try {
@@ -28,6 +29,15 @@ export async function getOrCreateDefaultUser() {
 }
 
 export function getDefaultUserId(): string {
-  // Por enquanto, usar um ID fixo. Em produção, seria obtido da autenticação
-  return 'default-admin-user';
+  // Retornar o ID fixo que será criado pela API
+  return DEFAULT_USER_ID;
+}
+
+export async function getDefaultUserIdAsync(): Promise<string> {
+  try {
+    return await UserService.getDefaultUserId();
+  } catch (error) {
+    console.error('Erro ao obter ID do usuário padrão:', error);
+    return DEFAULT_USER_ID;
+  }
 }
